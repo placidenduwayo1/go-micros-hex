@@ -24,6 +24,7 @@ Objectif : isoler le **domaine** (métier) des détails techniques (HTTP, DB, me
 ---
 
 ## 🗂️ Structure `customer-microservice`  en archi hexagonale
+```
 customer-microservice/
 ├── cmd/
 │   └── api/
@@ -93,3 +94,4 @@ customer-microservice/
 ├── .gitignore
 ├── go.mod
 └── README.md
+```
