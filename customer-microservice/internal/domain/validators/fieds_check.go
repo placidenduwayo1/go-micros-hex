@@ -14,9 +14,9 @@ func CheckInputFields(fileds map[string]string) error {
 	for key, value := range fileds {
 		value = strings.TrimSpace(value)
 		if value == "" {
-			return fmt.Errorf("error: empty value for fied %s", key)
+			return fmt.Errorf("%w %s", errEmptyFields, key)
 		} else if len(value) > 255 {
-			return fmt.Errorf("error: too long value for fied %s", key)
+			return fmt.Errorf("%w %s", errTooLong, key)
 		}
 
 	}
@@ -37,7 +37,7 @@ func CheckInputGenda(genda domain.Genda) error {
 		return nil
 	default:
 		{
-			return fmt.Errorf("error: invalid input genda %s", genda)
+			return fmt.Errorf("%w %s", errInvalidGenda, genda)
 		}
 	}
 }
@@ -46,7 +46,7 @@ func CheckInputId(id int64) error {
 	if id > 0 {
 		return nil
 	}
-	return fmt.Errorf("error: provided id %d is invalid", id)
+	return fmt.Errorf("%w %d", errInvalidId, id)
 }
 
 func CheckPhoneValid(phone string) error {
@@ -55,7 +55,7 @@ func CheckPhoneValid(phone string) error {
 		return nil
 	}
 
-	return fmt.Errorf("error: invalid input phone number %s", phone)
+	return fmt.Errorf("%w %s", errInvalidPhone, phone)
 }
 
 func GenerateDate() time.Time {
