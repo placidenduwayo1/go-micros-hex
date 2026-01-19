@@ -100,7 +100,7 @@ customer-microservice/
                 └───────┬──────┘
                         │ HTTP
                 ┌───────▼────────┐
-                │   API Gateway  │   (optionnel)
+                │   API Gateway  │  
                 └───────┬────────┘
                         │
         ┌───────────────┼───────────────────┐
