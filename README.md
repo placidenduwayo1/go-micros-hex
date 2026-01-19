@@ -93,7 +93,8 @@ customer-microservice/
 ```
 **Note**: Les autres microservices: product-microservice, order-microservice payment-microservice possèdent le même organigramme.
 
-```             ┌──────────────┐
+```
+	            ┌──────────────┐
                 │   API Client │
                 │ (Postman/Web)│
                 └───────┬──────┘
