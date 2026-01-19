@@ -1,0 +1,15 @@
+-- Active: 1768837493851@@127.0.0.1@5435@goapp3db
+CREATE TABLE IF NOT EXISTS orders (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    customer_id BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    status VARCHAR(15) CHECK(status IN('CREATED','CONFIRMED','PAYED'))
+);
+
+CREATE TABLE IF NOT EXISTS orderlines (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    order_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity BIGINT NOT NULL CHECK(quantity>0),
+    CONSTRAINT fk_orderline_order FOREIGN KEY (order_id) REFERENCES orders(id)
+);

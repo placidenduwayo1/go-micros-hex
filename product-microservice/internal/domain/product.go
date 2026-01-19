@@ -26,14 +26,14 @@ const (
 	Shoes    Category = "SHOE"
 )
 
+type Price struct {
+	UnitPrice int64
+	Currency  Currency
+}
 type PatchProduct struct {
 	ProductName *string
 	Description *string
 	UnitPrice   *int64
-}
-type Price struct {
-	UnitPrice int64
-	Currency  Currency
 }
 
 type Currency string

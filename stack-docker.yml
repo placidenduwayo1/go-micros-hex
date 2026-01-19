@@ -1,30 +1,27 @@
 # deployment into docker containers
 services:
   # ------ postgres dbs services ----------------
+  #customers db
   pg-customer-db:
     image: ${DB_IMAGE}
     container_name: pg-customer-db
-    ports:
-      - "5433:5432"
+    ports: ["5433:5432"]
     environment:
       POSTGRES_USER: ${CUSTOMER_DB_USER}
       POSTGRES_PASSWORD: ${CUSTOMER_DB_PWD}
       POSTGRES_DB: ${CUSTOMER_DB_NAME}
-    volumes:
-      - pgcustomerdata:/var/lib/postgresql/data
+    volumes: [pgcustomerdata:/var/lib/postgresql/data]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${CUSTOMER_DB_USER} -d ${CUSTOMER_DB_NAME}"]
       interval: 5s
       timeout: 3s
       retries: 10
-    networks:
-      - go-backend-net
-
+    networks: [go-backend-net]
+  # products db
   pg-product-db:
     image: ${DB_IMAGE}
     container_name: pg-product-db
-    ports:
-      - "5434:5432"
+    ports: ["5434:5432"]
     environment:
       POSTGRES_USER: ${PRODUCT_DB_USER}
       POSTGRES_PASSWORD: ${PRODUCT_DB_PWD}
@@ -34,52 +31,61 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-    networks:
-      - go-backend-net
-    volumes:
-      - pgproductdata:/var/lib/postgresql/data
+    networks: [go-backend-net]
+    volumes: [pgproductdata:/var/lib/postgresql/data]
+  #orders db 
+  pg-order-db:
+    image: ${DB_IMAGE}
+    container_name: pg-order-db
+    ports: ["5435:5432"]
+    environment:
+      POSTGRES_USER: ${ORDER_DB_USER}
+      POSTGRES_PASSWORD: ${ORDER_DB_PWD}
+      POSTGRES_DB: ${ORDER_DB_NAME}
+    volumes: [pgorderdata:/var/lib/postgresql/data]
+    networks: [go-backend-net]
  
  # ------ go backend servers (microservices apis) ----------------
+ #customer microservice
   go-micros-hexa-customer:
     container_name: go-micros-hex-customer
     build:
       context: ./customer-microservice
       dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
+    ports: ["8081:8081"]
     depends_on:
       pg-customer-db:
         condition: service_healthy
-    networks:
-      - go-backend-net
+    networks: [go-backend-net]
     environment:
       APP_HOSTNAME: ${APP_HOSTNAME}
       APP1_HOSTPORT: ${APP1_HOSTPORT}
       CUSTOMER_DB_URL: ${CUSTOMER_DB_URL}
-  
+  #product microservice
   go-micros-hexa-product:
     container_name: go-micros-hexa-product
     build:
       context: ./product-microservice
       dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
+    ports: ["8082:8082"]
     environment:
       APP_HOSTNAME: ${APP_HOSTNAME}
       APP2_HOSTPORT: ${APP2_HOSTPORT}
       PRODUCT_DB_URL: ${PRODUCT_DB_URL}
-    networks:
-      - go-backend-net
+    networks: [go-backend-net]
     depends_on:
       pg-product-db:
         condition: service_healthy
-
+  #order moicroservice
+#volumes
 volumes:
   pgcustomerdata:
     name: pgcustomerdata
   pgproductdata:
     name: pgproductdata
-
+  pgorderdata:
+    name: pgorderdata
+#networks
 networks:
   go-backend-net:
     name: go-backend-net

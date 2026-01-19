@@ -2,8 +2,6 @@ package dtos
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type ProductResponse struct {
@@ -32,7 +30,6 @@ type StockResponse struct {
 }
 
 type Response struct {
-	ID        string `json:"id"`
 	Status    Status `json:"status"`
 	Message   string `json:"message"`
 	CreatedAt string `jsnon:"created_at"`
@@ -46,7 +43,6 @@ const (
 
 func NewResponse(s Status, m string) *Response {
 	return &Response{
-		ID:        uuid.NewString()[:8],
 		Status:    s,
 		Message:   m,
 		CreatedAt: time.Now().Format("2006-01-02 15:04:05"),
