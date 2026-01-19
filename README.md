@@ -92,3 +92,6 @@ customer-microservice/
 └── README.md
 ```
 **Note**: Les autres microservices: product-microservice, order-microservice payment-microservice possèdent le même organigramme.
+
+<img width="506" height="595" alt="microservices" src="https://github.com/user-attachments/assets/4dfbf3e3-c894-4e9b-90ab-755499a02538" />
+
